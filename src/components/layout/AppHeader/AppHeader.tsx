@@ -7,42 +7,32 @@ type AppHeaderProps = {
 };
 
 export function AppHeader({ activeView }: AppHeaderProps) {
+  const sectionLabel = activeView === 'map' ? 'Mapa' : 'Dashboard';
+
   return (
     <header className={styles.header}>
-      <div className={styles.brand}>
-        <div className={styles.logo} aria-hidden="true">
-          S
+      <Link href="/map" className={styles.brand} aria-label="Ir al mapa">
+        <div className={styles.mark} aria-hidden="true">
+          <span />
         </div>
 
-        <div>
-          <strong>Spybee</strong>
-          <span>Project incidents</span>
-        </div>
-      </div>
-
-      <nav className={styles.nav} aria-label="Main navigation">
-        <Link
-          href="/map"
-          className={`${styles.navLink} ${
-            activeView === 'map' ? styles.active : ''
-          }`}
-        >
-          Mapa
-        </Link>
-
-        <Link
-          href="/dashboard"
-          className={`${styles.navLink} ${
-            activeView === 'dashboard' ? styles.active : ''
-          }`}
-        >
-          Dashboard
-        </Link>
-      </nav>
+        <strong>Spybee</strong>
+      </Link>
 
       <div className={styles.project}>
-        <span>Proyecto</span>
-        <strong>Torre Acqua - Etapa 2</strong>
+        <strong>Proyecto Onboarding</strong>
+        <span>{sectionLabel}</span>
+      </div>
+
+      <div className={styles.userArea} aria-label="Usuario activo">
+        <span className={styles.flag} aria-hidden="true" />
+        <div className={styles.avatar} aria-hidden="true">
+          J
+        </div>
+        <div className={styles.userText}>
+          <strong>Julian</strong>
+          <span>Superadmin</span>
+        </div>
       </div>
     </header>
   );

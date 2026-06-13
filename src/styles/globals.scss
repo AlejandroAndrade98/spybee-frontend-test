@@ -1,14 +1,16 @@
 :root {
+  --header-height: 76px;
   --color-app-bg: #eef1f4;
   --color-surface: #ffffff;
-  --color-surface-muted: #f8fafc;
+  --color-surface-muted: #f5f6f8;
   --color-text: #111827;
   --color-text-muted: #6b7280;
-  --color-border: #e5e7eb;
-  --color-header: #2f3338;
+  --color-border: #dde2e8;
+  --color-header: #30312f;
   --color-header-muted: #454b52;
-  --color-primary: #f5c542;
+  --color-primary: #ffc21a;
   --color-primary-dark: #c89912;
+  --radius-card: 8px;
   --shadow-soft: 0 18px 45px rgb(15 23 42 / 10%);
 }
 
@@ -25,7 +27,7 @@ body {
 body {
   background: var(--color-app-bg);
   color: var(--color-text);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
 
 button,
@@ -38,4 +40,10 @@ textarea {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid rgb(255 194 26 / 60%);
+  outline-offset: 2px;
 }

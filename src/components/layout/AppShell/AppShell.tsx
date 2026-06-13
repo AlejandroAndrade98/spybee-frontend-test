@@ -18,7 +18,9 @@ export function AppShell({ activeView, children }: AppShellProps) {
       <div className={styles.body}>
         <LeftSidebar activeView={activeView} />
 
-        <main className={styles.content}>{children}</main>
+        <main className={styles.content} id="main-content">
+          {children}
+        </main>
       </div>
     </div>
   );
