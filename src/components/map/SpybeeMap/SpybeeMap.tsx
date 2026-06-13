@@ -3,6 +3,7 @@
 import mapboxgl, { type LngLatBoundsLike, type Marker } from 'mapbox-gl';
 import { useEffect, useMemo, useRef } from 'react';
 
+import { useTranslations } from '@/i18n/useTranslations';
 import { useIncidentsStore } from '@/store/incidents.store';
 import type { Incident } from '@/types/incident';
 
@@ -17,27 +18,40 @@ function hasValidCoordinates(incident: Incident) {
   );
 }
 
-function getPriorityLabel(priority: Incident['priority']) {
-  const labels: Record<Incident['priority'], string> = {
-    high: 'Alta',
-    medium: 'Media',
-    low: 'Baja',
-  };
+function getPriorityLabel(
+  priority: Incident['priority'],
+  t: ReturnType<typeof useTranslations>,
+) {
+  if (priority === 'high') {
+    return t('priority.high');
+  }
 
-  return labels[priority];
+  if (priority === 'medium') {
+    return t('priority.medium');
+  }
+
+  return t('priority.low');
 }
 
-function getStatusLabel(status: Incident['status']) {
-  const labels: Record<Incident['status'], string> = {
-    open: 'Abierta',
-    closed: 'Cerrada',
-    on_pause: 'Pausada',
-  };
+function getStatusLabel(
+  status: Incident['status'],
+  t: ReturnType<typeof useTranslations>,
+) {
+  if (status === 'open') {
+    return t('status.open');
+  }
 
-  return labels[status];
+  if (status === 'closed') {
+    return t('status.closed');
+  }
+
+  return t('status.on_pause');
 }
 
-function createPopupContent(incident: Incident) {
+function createPopupContent(
+  incident: Incident,
+  t: ReturnType<typeof useTranslations>,
+) {
   const content = document.createElement('article');
   content.className = styles.popup;
 
@@ -47,9 +61,9 @@ function createPopupContent(incident: Incident) {
   const details = document.createElement('dl');
 
   const rows = [
-    ['Prioridad', getPriorityLabel(incident.priority)],
-    ['Estado', getStatusLabel(incident.status)],
-    ['Ubicacion', incident.locationDescription],
+    [t('map.popup.priority'), getPriorityLabel(incident.priority, t)],
+    [t('map.popup.status'), getStatusLabel(incident.status, t)],
+    [t('map.popup.location'), incident.locationDescription],
   ];
 
   rows.forEach(([term, description]) => {
@@ -57,7 +71,7 @@ function createPopupContent(incident: Incident) {
     dt.textContent = term;
 
     const dd = document.createElement('dd');
-    dd.textContent = description || 'Sin ubicacion';
+    dd.textContent = description || t('common.noLocation');
 
     details.append(dt, dd);
   });
@@ -76,6 +90,7 @@ function setMapCursor(map: mapboxgl.Map, cursor: string) {
 }
 
 export function SpybeeMap() {
+  const t = useTranslations();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const markersRef = useRef<Marker[]>([]);
@@ -164,7 +179,10 @@ export function SpybeeMap() {
       const element = document.createElement('button');
       element.type = 'button';
       element.className = `${styles.marker} ${styles[incident.priority]}`;
-      element.setAttribute('aria-label', `Seleccionar ${incident.title}`);
+      element.setAttribute(
+        'aria-label',
+        `${t('map.selectIncident')} ${incident.title}`,
+      );
 
       element.addEventListener('click', (event) => {
         event.stopPropagation();
@@ -175,7 +193,7 @@ export function SpybeeMap() {
         closeButton: true,
         closeOnClick: true,
         offset: 18,
-      }).setDOMContent(createPopupContent(incident));
+      }).setDOMContent(createPopupContent(incident, t));
 
       popupsRef.current.push(popup);
 
@@ -198,7 +216,7 @@ export function SpybeeMap() {
       });
       hasFitBoundsRef.current = true;
     }
-  }, [selectIncident, visibleIncidents]);
+  }, [selectIncident, t, visibleIncidents]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -239,11 +257,8 @@ export function SpybeeMap() {
   if (!token) {
     return (
       <div className={styles.fallback} role="status">
-        <strong>Falta configurar Mapbox</strong>
-        <span>
-          Agrega NEXT_PUBLIC_MAPBOX_TOKEN en el archivo .env.local para cargar
-          el mapa real.
-        </span>
+        <strong>{t('map.missingTokenTitle')}</strong>
+        <span>{t('map.missingTokenBody')}</span>
       </div>
     );
   }

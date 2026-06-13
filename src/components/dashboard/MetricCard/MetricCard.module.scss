@@ -5,7 +5,7 @@
   border: 1px solid var(--color-border);
   border-left: 4px solid var(--metric-color);
   border-radius: var(--radius-card);
-  background: #ffffff;
+  background: var(--color-surface);
   padding: 1rem;
   box-shadow: 0 10px 24px rgb(15 23 42 / 6%);
 
@@ -28,7 +28,7 @@
 }
 
 .neutral {
-  --metric-color: #30312f;
+  --metric-color: var(--color-neutral-metric);
 }
 
 .green {

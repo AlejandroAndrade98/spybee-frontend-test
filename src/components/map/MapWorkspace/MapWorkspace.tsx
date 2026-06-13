@@ -3,11 +3,13 @@
 import { CreateIncidentModal } from '@/components/map/CreateIncidentModal/CreateIncidentModal';
 import { MapDataPreview } from '@/components/map/MapDataPreview/MapDataPreview';
 import { SpybeeMap } from '@/components/map/SpybeeMap/SpybeeMap';
+import { useTranslations } from '@/i18n/useTranslations';
 import { useIncidentsStore } from '@/store/incidents.store';
 
 import styles from './MapWorkspace.module.scss';
 
 export function MapWorkspace() {
+  const t = useTranslations();
   const isPickingLocation = useIncidentsStore(
     (state) => state.isPickingLocation,
   );
@@ -19,22 +21,22 @@ export function MapWorkspace() {
   );
 
   return (
-    <section className={styles.workspace} aria-label="Mapa de incidencias">
+    <section className={styles.workspace} aria-label={t('map.title')}>
       <div className={styles.topBar}>
         <div>
-          <p className={styles.breadcrumb}>Mis Proyectos / Proyecto Onboarding</p>
-          <h1>Mapa de incidencias</h1>
+          <p className={styles.breadcrumb}>{t('common.projectTrail')}</p>
+          <h1>{t('map.title')}</h1>
         </div>
 
         <div className={styles.actions}>
-          <button type="button">Filtros</button>
-          <button type="button">Informes</button>
+          <button type="button">{t('map.filters')}</button>
+          <button type="button">{t('map.reports')}</button>
           <button
             className={styles.primary}
             onClick={startIncidentCreation}
             type="button"
           >
-            + Crear incidencia
+            {t('map.createIncident')}
           </button>
         </div>
       </div>
@@ -43,9 +45,9 @@ export function MapWorkspace() {
         <SpybeeMap />
         {isPickingLocation ? (
           <div className={styles.pickBanner} role="status">
-            <strong>Haz clic en el mapa para ubicar la incidencia</strong>
+            <strong>{t('map.pickLocation')}</strong>
             <button onClick={cancelIncidentCreation} type="button">
-              Cancelar
+              {t('common.cancel')}
             </button>
           </div>
         ) : null}

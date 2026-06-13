@@ -14,7 +14,7 @@
   overflow-y: auto;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
-  background: #ffffff;
+  background: var(--color-surface);
   box-shadow: 0 28px 70px rgb(15 23 42 / 28%);
 }
 
@@ -47,7 +47,7 @@
   place-items: center;
   border: 1px solid var(--color-border);
   border-radius: 6px;
-  background: #ffffff;
+  background: var(--color-surface);
   color: var(--color-text);
   cursor: pointer;
   font-size: 1rem;
@@ -76,7 +76,7 @@
     width: 100%;
     border: 1px solid var(--color-border);
     border-radius: 6px;
-    background: #ffffff;
+    background: var(--color-surface);
     color: var(--color-text);
     padding: 0.7rem 0.75rem;
   }
@@ -140,7 +140,7 @@
   button {
     border: 1px solid var(--color-border);
     border-radius: 6px;
-    background: #ffffff;
+    background: var(--color-surface);
     color: var(--color-text);
     cursor: pointer;
     padding: 0.75rem 1rem;

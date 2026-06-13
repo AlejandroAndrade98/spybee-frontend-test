@@ -6,6 +6,7 @@ import { DashboardFilters } from '@/components/dashboard/DashboardFilters/Dashbo
 import { IncidentsTable } from '@/components/dashboard/IncidentsTable/IncidentsTable';
 import { MetricCard } from '@/components/dashboard/MetricCard/MetricCard';
 import { SummaryCard } from '@/components/dashboard/SummaryCard/SummaryCard';
+import { useTranslations } from '@/i18n/useTranslations';
 import { useIncidentsStore } from '@/store/incidents.store';
 import {
   DEFAULT_DASHBOARD_FILTERS,
@@ -24,6 +25,7 @@ import {
 import styles from './DashboardWorkspace.module.scss';
 
 export function DashboardWorkspace() {
+  const t = useTranslations();
   const baseIncidents = useIncidentsStore((state) => state.baseIncidents);
   const createdIncidents = useIncidentsStore((state) => state.createdIncidents);
   const status = useIncidentsStore((state) => state.status);
@@ -70,12 +72,22 @@ export function DashboardWorkspace() {
   );
 
   const statusSummary = useMemo(
-    () => getStatusSummary(filteredIncidents),
-    [filteredIncidents],
+    () =>
+      getStatusSummary(filteredIncidents, {
+        open: t('status.open'),
+        closed: t('status.closed'),
+        on_pause: t('status.on_pause'),
+      }),
+    [filteredIncidents, t],
   );
   const prioritySummary = useMemo(
-    () => getPrioritySummary(filteredIncidents),
-    [filteredIncidents],
+    () =>
+      getPrioritySummary(filteredIncidents, {
+        high: t('priority.high'),
+        medium: t('priority.medium'),
+        low: t('priority.low'),
+      }),
+    [filteredIncidents, t],
   );
   const typeSummary = useMemo(
     () => getTypeSummary(filteredIncidents),
@@ -93,7 +105,7 @@ export function DashboardWorkspace() {
     return (
       <section className={styles.workspace} aria-labelledby="dashboard-title">
         <Header source={source} />
-        <div className={styles.stateCard}>Cargando incidencias...</div>
+        <div className={styles.stateCard}>{t('common.loadingIncidents')}</div>
       </section>
     );
   }
@@ -103,7 +115,7 @@ export function DashboardWorkspace() {
       <section className={styles.workspace} aria-labelledby="dashboard-title">
         <Header source={source} />
         <div className={styles.stateCard}>
-          <strong>No se pudieron cargar las incidencias.</strong>
+          <strong>{t('dashboard.loadError')}</strong>
           <span>{error}</span>
         </div>
       </section>
@@ -122,51 +134,51 @@ export function DashboardWorkspace() {
         types={filterOptions.types}
       />
 
-      <div className={styles.metricsGrid} aria-label="KPIs principales">
+      <div className={styles.metricsGrid} aria-label={t('dashboard.kpis')}>
         <MetricCard
-          detail="segun filtros activos"
-          label="Total visibles"
+          detail={t('dashboard.filteredDetail')}
+          label={t('dashboard.totalVisible')}
           value={metrics.total}
         />
         <MetricCard
-          detail="estado actual"
-          label="Abiertas"
+          detail={t('dashboard.currentStatus')}
+          label={t('dashboard.open')}
           tone="green"
           value={metrics.open}
         />
         <MetricCard
-          detail="cerradas"
-          label="Cerradas"
+          detail={t('dashboard.closedDetail')}
+          label={t('dashboard.closed')}
           tone="blue"
           value={metrics.closed}
         />
         <MetricCard
-          detail="requieren seguimiento"
-          label="En pausa"
+          detail={t('dashboard.followUp')}
+          label={t('dashboard.onPause')}
           tone="yellow"
           value={metrics.onPause}
         />
         <MetricCard
-          detail="prioridad alta"
-          label="Alta prioridad"
+          detail={t('dashboard.highPriorityDetail')}
+          label={t('dashboard.highPriority')}
           tone="red"
           value={metrics.highPriority}
         />
         <MetricCard
-          detail="no cerradas con fecha vencida"
-          label="Vencidas"
+          detail={t('dashboard.overdueDetail')}
+          label={t('dashboard.overdue')}
           tone="red"
           value={metrics.overdue}
         />
         <MetricCard
-          detail="con imagenes o videos"
-          label="Con evidencias"
+          detail={t('dashboard.withMediaDetail')}
+          label={t('dashboard.withMedia')}
           tone="blue"
           value={metrics.withMedia}
         />
         <MetricCard
-          detail="guardadas en este navegador"
-          label="Creadas localmente"
+          detail={t('dashboard.localDetail')}
+          label={t('dashboard.createdLocally')}
           tone="yellow"
           value={metrics.createdLocally}
         />
@@ -174,24 +186,24 @@ export function DashboardWorkspace() {
 
       <div className={styles.summaryGrid}>
         <SummaryCard
-          description="Distribucion del avance"
+          description={t('dashboard.statusDescription')}
           items={statusSummary}
-          title="Por estado"
+          title={t('dashboard.byStatus')}
         />
         <SummaryCard
-          description="Riesgo operativo"
+          description={t('dashboard.priorityDescription')}
           items={prioritySummary}
-          title="Por prioridad"
+          title={t('dashboard.byPriority')}
         />
         <SummaryCard
-          description="Tipos de incidencia mas frecuentes"
+          description={t('dashboard.categoryDescription')}
           items={typeSummary}
-          title="Por categoria"
+          title={t('dashboard.byCategory')}
         />
         <SummaryCard
-          description="Quien reporta o responde mas casos"
+          description={t('dashboard.ownerDescription')}
           items={ownerSummary}
-          title="Por responsable"
+          title={t('dashboard.byOwner')}
         />
       </div>
 
@@ -204,15 +216,17 @@ export function DashboardWorkspace() {
 }
 
 function Header({ source }: { source: string | null }) {
+  const t = useTranslations();
+
   return (
     <header className={styles.header}>
       <div>
-        <p>Mis Proyectos / Proyecto Onboarding / Incidencias</p>
-        <h1 id="dashboard-title">Dashboard de incidencias</h1>
+        <p>{t('common.incidentsTrail')}</p>
+        <h1 id="dashboard-title">{t('dashboard.title')}</h1>
       </div>
 
       <span className={styles.sourcePill}>
-        Fuente: {source ?? 'pendiente'}
+        {t('common.source')}: {source ?? t('common.pending')}
       </span>
     </header>
   );

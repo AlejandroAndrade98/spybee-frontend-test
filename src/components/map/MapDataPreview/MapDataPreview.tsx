@@ -2,11 +2,13 @@
 
 import { useEffect, useMemo } from 'react';
 
+import { useTranslations } from '@/i18n/useTranslations';
 import { useIncidentsStore } from '@/store/incidents.store';
 
 import styles from './MapDataPreview.module.scss';
 
 export function MapDataPreview() {
+  const t = useTranslations();
   const baseIncidents = useIncidentsStore((state) => state.baseIncidents);
   const createdIncidents = useIncidentsStore((state) => state.createdIncidents);
   const filters = useIncidentsStore((state) => state.filters);
@@ -32,7 +34,7 @@ export function MapDataPreview() {
   if (status === 'idle' || status === 'loading') {
     return (
       <section className={styles.card}>
-        <p>Cargando incidencias...</p>
+        <p>{t('common.loadingIncidents')}</p>
       </section>
     );
   }
@@ -40,7 +42,7 @@ export function MapDataPreview() {
   if (status === 'error') {
     return (
       <section className={styles.card}>
-        <p>No se pudieron cargar las incidencias.</p>
+        <p>{t('preview.loadError')}</p>
         <small>{error}</small>
       </section>
     );
@@ -48,13 +50,13 @@ export function MapDataPreview() {
 
   return (
     <section className={styles.card}>
-      <span className={styles.label}>Data source</span>
+      <span className={styles.label}>{t('preview.dataSource')}</span>
       <strong>{source}</strong>
 
-      <span className={styles.label}>Incidencias visibles</span>
+      <span className={styles.label}>{t('preview.visibleIncidents')}</span>
       <strong>{visibleIncidentsCount}</strong>
 
-      <span className={styles.label}>Creadas localmente</span>
+      <span className={styles.label}>{t('preview.createdLocally')}</span>
       <strong>{createdIncidents.length}</strong>
     </section>
   );

@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 
+import { useTranslations } from '@/i18n/useTranslations';
 import { useIncidentsStore } from '@/store/incidents.store';
 
 import styles from './LeftSidebar.module.scss';
@@ -60,28 +61,29 @@ function Icon({ name }: { name: IconName }) {
 }
 
 export function LeftSidebar({ activeView }: LeftSidebarProps) {
+  const t = useTranslations();
   const startIncidentCreation = useIncidentsStore(
     (state) => state.startIncidentCreation,
   );
 
   return (
-    <aside className={styles.sidebar} aria-label="Herramientas del proyecto">
+    <aside className={styles.sidebar} aria-label={t('sidebar.tools')}>
       <button
         className={styles.createButton}
         onClick={startIncidentCreation}
         type="button"
-        aria-label="Crear incidencia"
-        title="Crear incidencia"
+        aria-label={t('sidebar.createIncident')}
+        title={t('sidebar.createIncident')}
       >
         +
       </button>
 
-      <nav className={styles.items} aria-label="Secciones">
+      <nav className={styles.items} aria-label={t('sidebar.sections')}>
         <Link
           href="/map"
           className={styles.item}
-          aria-label="Inicio"
-          title="Inicio"
+          aria-label={t('sidebar.home')}
+          title={t('sidebar.home')}
         >
           <Icon name="home" />
         </Link>
@@ -93,8 +95,12 @@ export function LeftSidebar({ activeView }: LeftSidebarProps) {
             className={`${styles.item} ${
               activeView === item.view ? styles.active : ''
             }`}
-            aria-label={item.label}
-            title={item.label}
+            aria-label={
+              item.view === 'map' ? t('header.map') : t('header.dashboard')
+            }
+            title={
+              item.view === 'map' ? t('header.map') : t('header.dashboard')
+            }
           >
             <Icon name={item.icon} />
           </Link>
@@ -103,8 +109,8 @@ export function LeftSidebar({ activeView }: LeftSidebarProps) {
         <button
           className={styles.item}
           type="button"
-          aria-label="Configuracion"
-          title="Configuracion"
+          aria-label={t('sidebar.settings')}
+          title={t('sidebar.settings')}
         >
           <Icon name="settings" />
         </button>

@@ -13,6 +13,18 @@ export type SummaryItem = {
   value: number;
 };
 
+type StatusLabels = {
+  open: string;
+  closed: string;
+  on_pause: string;
+};
+
+type PriorityLabels = {
+  high: string;
+  medium: string;
+  low: string;
+};
+
 export function isIncidentOverdue(incident: Incident, now = new Date()) {
   return incident.status !== 'closed' && isPastDate(incident.dueDate, now);
 }
@@ -58,31 +70,45 @@ function countBy<T extends string>(
     .sort((a, b) => b.value - a.value);
 }
 
-export function getStatusSummary(incidents: Incident[]): SummaryItem[] {
+export function getStatusSummary(
+  incidents: Incident[],
+  labels: StatusLabels = {
+    open: 'Abierta',
+    closed: 'Cerrada',
+    on_pause: 'En pausa',
+  },
+): SummaryItem[] {
   return countBy(incidents, (incident) => incident.status, (status) => {
     if (status === 'open') {
-      return 'Abierta';
+      return labels.open;
     }
 
     if (status === 'closed') {
-      return 'Cerrada';
+      return labels.closed;
     }
 
-    return 'En pausa';
+    return labels.on_pause;
   });
 }
 
-export function getPrioritySummary(incidents: Incident[]): SummaryItem[] {
+export function getPrioritySummary(
+  incidents: Incident[],
+  labels: PriorityLabels = {
+    high: 'Alta',
+    medium: 'Media',
+    low: 'Baja',
+  },
+): SummaryItem[] {
   return countBy(incidents, (incident) => incident.priority, (priority) => {
     if (priority === 'high') {
-      return 'Alta';
+      return labels.high;
     }
 
     if (priority === 'medium') {
-      return 'Media';
+      return labels.medium;
     }
 
-    return 'Baja';
+    return labels.low;
   });
 }
 

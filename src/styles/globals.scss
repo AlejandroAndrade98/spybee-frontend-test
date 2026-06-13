@@ -10,8 +10,24 @@
   --color-header-muted: #454b52;
   --color-primary: #ffc21a;
   --color-primary-dark: #c89912;
+  --color-neutral-metric: #30312f;
   --radius-card: 8px;
   --shadow-soft: 0 18px 45px rgb(15 23 42 / 10%);
+}
+
+:root[data-theme='dark'] {
+  --color-app-bg: #15181c;
+  --color-surface: #20252b;
+  --color-surface-muted: #2a3037;
+  --color-text: #f4f6f8;
+  --color-text-muted: #aab4c0;
+  --color-border: #3b444f;
+  --color-header: #222420;
+  --color-header-muted: #343a40;
+  --color-primary: #ffc21a;
+  --color-primary-dark: #d29a00;
+  --color-neutral-metric: #d8dde2;
+  --shadow-soft: 0 18px 45px rgb(0 0 0 / 22%);
 }
 
 * {
@@ -28,6 +44,9 @@ body {
   background: var(--color-app-bg);
   color: var(--color-text);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
 }
 
 button,

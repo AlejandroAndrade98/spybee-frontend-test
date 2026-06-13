@@ -3,7 +3,7 @@
   gap: 1rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
-  background: #ffffff;
+  background: var(--color-surface);
   padding: 1rem;
   box-shadow: 0 10px 24px rgb(15 23 42 / 6%);
 
@@ -49,7 +49,7 @@
   height: 10px;
   overflow: hidden;
   border-radius: 999px;
-  background: #eef0f3;
+  background: var(--color-surface-muted);
 }
 
 .fill {

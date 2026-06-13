@@ -3,6 +3,7 @@
 import type { FormEvent } from 'react';
 import { useMemo, useState } from 'react';
 
+import { useTranslations } from '@/i18n/useTranslations';
 import { useIncidentsStore } from '@/store/incidents.store';
 import type {
   Incident,
@@ -19,11 +20,7 @@ const FALLBACK_TYPE: IncidentType = {
   name_en: 'General',
 };
 
-const PRIORITIES: Array<{ label: string; value: IncidentPriority }> = [
-  { label: 'Baja', value: 'low' },
-  { label: 'Media', value: 'medium' },
-  { label: 'Alta', value: 'high' },
-];
+const PRIORITIES: IncidentPriority[] = ['low', 'medium', 'high'];
 
 type FormErrors = {
   title?: string;
@@ -36,7 +33,7 @@ type FormErrors = {
 function getNextSequenceId(incidents: Incident[]) {
   const maxSequence = incidents.reduce((max, incident) => {
     const sequence = Number.parseInt(
-      incident.sequenceId.replace(/\D/g, ''),
+      (incident.sequenceId ?? '').replace(/\D/g, ''),
       10,
     );
 
@@ -54,7 +51,23 @@ function getNextOrder(incidents: Incident[]) {
   return incidents.reduce((max, incident) => Math.max(max, incident.order), 0) + 1;
 }
 
+function getPriorityLabel(
+  priority: IncidentPriority,
+  t: ReturnType<typeof useTranslations>,
+) {
+  if (priority === 'high') {
+    return t('priority.high');
+  }
+
+  if (priority === 'medium') {
+    return t('priority.medium');
+  }
+
+  return t('priority.low');
+}
+
 export function CreateIncidentModal() {
+  const t = useTranslations();
   const baseIncidents = useIncidentsStore((state) => state.baseIncidents);
   const createdIncidents = useIncidentsStore((state) => state.createdIncidents);
   const creationCoordinates = useIncidentsStore(
@@ -79,7 +92,9 @@ export function CreateIncidentModal() {
     const uniqueTypes = new Map<string, IncidentType>();
 
     incidents.forEach((incident) => {
-      uniqueTypes.set(incident.type.key, incident.type);
+      if (incident.type?.key) {
+        uniqueTypes.set(incident.type.key, incident.type);
+      }
     });
 
     return uniqueTypes.size > 0 ? [...uniqueTypes.values()] : [FALLBACK_TYPE];
@@ -122,23 +137,23 @@ export function CreateIncidentModal() {
     const nextErrors: FormErrors = {};
 
     if (!title.trim()) {
-      nextErrors.title = 'El titulo es requerido.';
+      nextErrors.title = t('modal.titleRequired');
     }
 
     if (!description.trim()) {
-      nextErrors.description = 'La descripcion es requerida.';
+      nextErrors.description = t('modal.descriptionRequired');
     }
 
     if (!selectedTypeKey) {
-      nextErrors.typeKey = 'La categoria es requerida.';
+      nextErrors.typeKey = t('modal.categoryRequired');
     }
 
     if (!priority) {
-      nextErrors.priority = 'La prioridad es requerida.';
+      nextErrors.priority = t('modal.priorityRequired');
     }
 
     if (!creationCoordinates) {
-      nextErrors.coordinates = 'Selecciona una ubicacion en el mapa.';
+      nextErrors.coordinates = t('modal.coordinatesRequired');
     }
 
     setErrors(nextErrors);
@@ -181,7 +196,7 @@ export function CreateIncidentModal() {
       observers: [],
       coordinates: creationCoordinates,
       locationDescription:
-        locationDescription.trim() || 'Ubicación seleccionada en mapa',
+        locationDescription.trim() || t('modal.defaultLocation'),
       dueDate: dueDate ? new Date(`${dueDate}T00:00:00`).toISOString() : null,
       closingDate: null,
       media: [],
@@ -207,12 +222,12 @@ export function CreateIncidentModal() {
       >
         <header className={styles.header}>
           <div>
-            <p>Nueva incidencia</p>
-            <h2 id="create-incident-title">Crear Incidencia</h2>
+            <p>{t('modal.kicker')}</p>
+            <h2 id="create-incident-title">{t('modal.title')}</h2>
           </div>
 
           <button
-            aria-label="Cerrar modal"
+            aria-label={t('modal.close')}
             className={styles.closeButton}
             onClick={handleCancel}
             type="button"
@@ -223,7 +238,7 @@ export function CreateIncidentModal() {
 
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.field}>
-            <label htmlFor="incident-title">Titulo</label>
+            <label htmlFor="incident-title">{t('modal.titleLabel')}</label>
             <input
               id="incident-title"
               onChange={(event) => setTitle(event.target.value)}
@@ -234,7 +249,9 @@ export function CreateIncidentModal() {
           </div>
 
           <div className={styles.field}>
-            <label htmlFor="incident-description">Descripcion</label>
+            <label htmlFor="incident-description">
+              {t('modal.descriptionLabel')}
+            </label>
             <textarea
               id="incident-description"
               onChange={(event) => setDescription(event.target.value)}
@@ -246,7 +263,7 @@ export function CreateIncidentModal() {
 
           <div className={styles.twoColumns}>
             <div className={styles.field}>
-              <label htmlFor="incident-type">Categoria</label>
+              <label htmlFor="incident-type">{t('modal.categoryLabel')}</label>
               <select
                 id="incident-type"
                 onChange={(event) => setTypeKey(event.target.value)}
@@ -262,7 +279,9 @@ export function CreateIncidentModal() {
             </div>
 
             <div className={styles.field}>
-              <label htmlFor="incident-priority">Prioridad</label>
+              <label htmlFor="incident-priority">
+                {t('modal.priorityLabel')}
+              </label>
               <select
                 id="incident-priority"
                 onChange={(event) =>
@@ -271,8 +290,8 @@ export function CreateIncidentModal() {
                 value={priority}
               >
                 {PRIORITIES.map((item) => (
-                  <option key={item.value} value={item.value}>
-                    {item.label}
+                  <option key={item} value={item}>
+                    {getPriorityLabel(item, t)}
                   </option>
                 ))}
               </select>
@@ -282,7 +301,9 @@ export function CreateIncidentModal() {
 
           <div className={styles.twoColumns}>
             <div className={styles.field}>
-              <label htmlFor="incident-due-date">Fecha de vencimiento</label>
+              <label htmlFor="incident-due-date">
+                {t('modal.dueDateLabel')}
+              </label>
               <input
                 id="incident-due-date"
                 onChange={(event) => setDueDate(event.target.value)}
@@ -292,36 +313,38 @@ export function CreateIncidentModal() {
             </div>
 
             <div className={styles.field}>
-              <label htmlFor="incident-location">Descripción de ubicación</label>
+              <label htmlFor="incident-location">
+                {t('modal.locationDescriptionLabel')}
+              </label>
               <input
                 id="incident-location"
                 onChange={(event) => setLocationDescription(event.target.value)}
-                placeholder="Ej: Nivel 5 - eje B3"
+                placeholder={t('modal.locationPlaceholder')}
                 type="text"
                 value={locationDescription}
               />
               <small className={styles.helpText}>
-                Esta descripción complementa el punto seleccionado en el mapa.
+                {t('modal.locationHelp')}
               </small>
             </div>
           </div>
 
           <div className={styles.coordinates}>
-            <strong>Coordenadas seleccionadas</strong>
+            <strong>{t('modal.coordinates')}</strong>
             <span>
               {creationCoordinates
                 ? `${creationCoordinates.lat.toFixed(6)}, ${creationCoordinates.lng.toFixed(6)}`
-                : 'Pendiente de seleccion'}
+                : t('modal.coordinatesPending')}
             </span>
             {errors.coordinates ? <em>{errors.coordinates}</em> : null}
           </div>
 
           <footer className={styles.footer}>
             <button onClick={handleCancel} type="button">
-              Cancelar
+              {t('common.cancel')}
             </button>
             <button className={styles.primary} type="submit">
-              Guardar incidencia
+              {t('modal.save')}
             </button>
           </footer>
         </form>

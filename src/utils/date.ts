@@ -6,12 +6,12 @@ export function isPastDate(date: string | null, now = new Date()) {
   return new Date(date).getTime() < now.getTime();
 }
 
-export function formatShortDate(date: string | null) {
+export function formatShortDate(date: string | null, locale = 'es-CO') {
   if (!date) {
     return 'Sin fecha';
   }
 
-  return new Intl.DateTimeFormat('es-CO', {
+  return new Intl.DateTimeFormat(locale, {
     day: '2-digit',
     month: 'short',
     year: 'numeric',

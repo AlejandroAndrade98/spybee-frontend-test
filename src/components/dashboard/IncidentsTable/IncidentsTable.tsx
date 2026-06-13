@@ -2,6 +2,8 @@
 
 import { useMemo, useState } from 'react';
 
+import { useTranslations } from '@/i18n/useTranslations';
+import { usePreferencesStore } from '@/store/preferences.store';
 import type { Incident } from '@/types/incident';
 import { formatShortDate } from '@/utils/date';
 import {
@@ -21,34 +23,43 @@ type IncidentsTableProps = {
 
 const PAGE_SIZE = 15;
 
-function getPriorityLabel(priority: Incident['priority']) {
+function getPriorityLabel(
+  priority: Incident['priority'],
+  t: ReturnType<typeof useTranslations>,
+) {
   if (priority === 'high') {
-    return 'Alta';
+    return t('priority.high');
   }
 
   if (priority === 'medium') {
-    return 'Media';
+    return t('priority.medium');
   }
 
-  return 'Baja';
+  return t('priority.low');
 }
 
-function getStatusLabel(status: Incident['status']) {
+function getStatusLabel(
+  status: Incident['status'],
+  t: ReturnType<typeof useTranslations>,
+) {
   if (status === 'open') {
-    return 'Abierta';
+    return t('status.open');
   }
 
   if (status === 'closed') {
-    return 'Cerrada';
+    return t('status.closed');
   }
 
-  return 'En pausa';
+  return t('status.on_pause');
 }
 
 export function IncidentsTable({
   incidents,
   createdIncidentIds,
 }: IncidentsTableProps) {
+  const t = useTranslations();
+  const language = usePreferencesStore((state) => state.language);
+  const locale = language === 'es' ? 'es-CO' : 'en-US';
   const paginationKey = incidents.map((incident) => incident.id).join('|');
   const [paginationState, setPaginationState] = useState({
     key: paginationKey,
@@ -72,8 +83,8 @@ export function IncidentsTable({
   if (incidents.length === 0) {
     return (
       <article className={styles.card}>
-        <h2>Incidencias filtradas</h2>
-        <p className={styles.empty}>No hay incidencias para estos filtros.</p>
+        <h2>{t('table.title')}</h2>
+        <p className={styles.empty}>{t('table.empty')}</p>
       </article>
     );
   }
@@ -82,10 +93,10 @@ export function IncidentsTable({
     <article className={styles.card}>
       <header>
         <div>
-          <h2>Incidencias filtradas</h2>
+          <h2>{t('table.title')}</h2>
           <p>
-            {incidents.length} resultados visibles - Mostrando {firstItem}-
-            {lastItem}
+            {incidents.length} {t('table.results')} - {t('table.showing')}{' '}
+            {firstItem}-{lastItem}
           </p>
         </div>
       </header>
@@ -94,44 +105,54 @@ export function IncidentsTable({
         <table className={styles.table}>
           <thead>
             <tr>
-              <th>Codigo</th>
-              <th>Titulo</th>
-              <th>Proyecto</th>
-              <th>Categoria</th>
-              <th>Prioridad</th>
-              <th>Estado</th>
-              <th>Responsable</th>
-              <th>Vencimiento</th>
-              <th>Evidencias</th>
+              <th>{t('table.code')}</th>
+              <th>{t('table.incidentTitle')}</th>
+              <th>{t('table.project')}</th>
+              <th>{t('table.category')}</th>
+              <th>{t('table.priority')}</th>
+              <th>{t('table.status')}</th>
+              <th>{t('table.owner')}</th>
+              <th>{t('table.dueDate')}</th>
+              <th>{t('table.media')}</th>
             </tr>
           </thead>
           <tbody>
             {paginatedIncidents.map((incident) => (
               <tr key={incident.id}>
-                <td data-label="Codigo">
+                <td data-label={t('table.code')}>
                   <strong>#{getIncidentSequenceId(incident)}</strong>
                   {createdIncidentIds.has(incident.id) ? (
-                    <span className={styles.localBadge}>Local</span>
+                    <span className={styles.localBadge}>{t('table.local')}</span>
                   ) : null}
                 </td>
-                <td data-label="Titulo">{incident.title}</td>
-                <td data-label="Proyecto">{getIncidentProjectName(incident)}</td>
-                <td data-label="Categoria">{getIncidentTypeName(incident)}</td>
-                <td data-label="Prioridad">
+                <td data-label={t('table.incidentTitle')}>{incident.title}</td>
+                <td data-label={t('table.project')}>
+                  {getIncidentProjectName(incident)}
+                </td>
+                <td data-label={t('table.category')}>
+                  {getIncidentTypeName(incident)}
+                </td>
+                <td data-label={t('table.priority')}>
                   <span
                     className={`${styles.badge} ${styles[incident.priority]}`}
                   >
-                    {getPriorityLabel(incident.priority)}
+                    {getPriorityLabel(incident.priority, t)}
                   </span>
                 </td>
-                <td data-label="Estado">
+                <td data-label={t('table.status')}>
                   <span className={`${styles.badge} ${styles[incident.status]}`}>
-                    {getStatusLabel(incident.status)}
+                    {getStatusLabel(incident.status, t)}
                   </span>
                 </td>
-                <td data-label="Responsable">{getIncidentOwnerName(incident)}</td>
-                <td data-label="Vencimiento">{formatShortDate(incident.dueDate)}</td>
-                <td data-label="Evidencias">
+                <td data-label={t('table.owner')}>
+                  {getIncidentOwnerName(incident)}
+                </td>
+                <td data-label={t('table.dueDate')}>
+                  {incident.dueDate
+                    ? formatShortDate(incident.dueDate, locale)
+                    : t('common.noDate')}
+                </td>
+                <td data-label={t('table.media')}>
                   {getIncidentMediaCount(incident) > 0
                     ? getIncidentMediaCount(incident)
                     : '-'}
@@ -142,9 +163,9 @@ export function IncidentsTable({
         </table>
       </div>
 
-      <footer className={styles.pagination} aria-label="Paginacion">
+      <footer className={styles.pagination} aria-label={t('table.pagination')}>
         <span>
-          Pagina {safeCurrentPage} de {totalPages}
+          {t('table.page')} {safeCurrentPage} {t('table.of')} {totalPages}
         </span>
 
         <div className={styles.paginationActions}>
@@ -158,7 +179,7 @@ export function IncidentsTable({
             }
             type="button"
           >
-            Anterior
+            {t('table.previous')}
           </button>
           <button
             disabled={safeCurrentPage === totalPages}
@@ -170,7 +191,7 @@ export function IncidentsTable({
             }
             type="button"
           >
-            Siguiente
+            {t('table.next')}
           </button>
         </div>
       </footer>

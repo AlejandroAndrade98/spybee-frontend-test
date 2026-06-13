@@ -1,3 +1,6 @@
+'use client';
+
+import { useTranslations } from '@/i18n/useTranslations';
 import type { SummaryItem } from '@/utils/incidentMetrics';
 
 import styles from './SummaryCard.module.scss';
@@ -15,6 +18,7 @@ export function SummaryCard({
   items,
   maxItems = 6,
 }: SummaryCardProps) {
+  const t = useTranslations();
   const visibleItems = items.slice(0, maxItems);
   const maxValue = Math.max(...visibleItems.map((item) => item.value), 1);
 
@@ -41,7 +45,7 @@ export function SummaryCard({
           ))}
         </div>
       ) : (
-        <p className={styles.empty}>Sin datos para mostrar.</p>
+        <p className={styles.empty}>{t('table.empty')}</p>
       )}
     </article>
   );
