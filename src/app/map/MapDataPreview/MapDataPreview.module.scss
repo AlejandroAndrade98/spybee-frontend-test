@@ -1,0 +1,20 @@
+.card {
+  display: grid;
+  gap: 0.5rem;
+  width: min(100%, 360px);
+  padding: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 1rem;
+  background: #ffffff;
+  color: #111827;
+  box-shadow: 0 16px 40px rgb(15 23 42 / 8%);
+}
+
+.label {
+  margin-top: 0.5rem;
+  color: #6b7280;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}

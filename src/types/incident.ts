@@ -67,3 +67,12 @@ export type Incident = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type IncidentFilters = {
+  search: string;
+  projectId: string;
+  status: IncidentStatus | 'all';
+  priority: IncidentPriority | 'all';
+  typeKey: string;
+  includeDeleted: boolean;
+};
