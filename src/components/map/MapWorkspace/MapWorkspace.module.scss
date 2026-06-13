@@ -64,6 +64,38 @@
   z-index: 2;
 }
 
+.pickBanner {
+  position: absolute;
+  left: 50%;
+  top: 1rem;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transform: translateX(-50%);
+  border: 1px solid rgb(255 194 26 / 70%);
+  border-radius: 8px;
+  background: rgb(48 49 47 / 94%);
+  color: #ffffff;
+  padding: 0.75rem 0.9rem;
+  box-shadow: 0 16px 36px rgb(15 23 42 / 22%);
+
+  strong {
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+
+  button {
+    border: 1px solid rgb(255 255 255 / 25%);
+    border-radius: 6px;
+    background: transparent;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 0.45rem 0.6rem;
+    font-weight: 800;
+  }
+}
+
 @media (max-width: 820px) {
   .topBar {
     align-items: flex-start;
@@ -85,5 +117,16 @@
 
   .mapOverlay {
     right: 1rem;
+  }
+
+  .pickBanner {
+    left: 1rem;
+    right: 1rem;
+    justify-content: space-between;
+    transform: none;
+
+    strong {
+      white-space: normal;
+    }
   }
 }

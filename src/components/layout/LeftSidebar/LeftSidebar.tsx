@@ -1,4 +1,8 @@
+'use client';
+
 import Link from 'next/link';
+
+import { useIncidentsStore } from '@/store/incidents.store';
 
 import styles from './LeftSidebar.module.scss';
 
@@ -56,10 +60,15 @@ function Icon({ name }: { name: IconName }) {
 }
 
 export function LeftSidebar({ activeView }: LeftSidebarProps) {
+  const startIncidentCreation = useIncidentsStore(
+    (state) => state.startIncidentCreation,
+  );
+
   return (
     <aside className={styles.sidebar} aria-label="Herramientas del proyecto">
       <button
         className={styles.createButton}
+        onClick={startIncidentCreation}
         type="button"
         aria-label="Crear incidencia"
         title="Crear incidencia"

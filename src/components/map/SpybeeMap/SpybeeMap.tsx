@@ -82,6 +82,13 @@ export function SpybeeMap() {
   );
   const loadIncidents = useIncidentsStore((state) => state.loadIncidents);
   const selectIncident = useIncidentsStore((state) => state.selectIncident);
+  const isPickingLocation = useIncidentsStore(
+    (state) => state.isPickingLocation,
+  );
+  const setCreationCoordinates = useIncidentsStore(
+    (state) => state.setCreationCoordinates,
+  );
+  const openCreateModal = useIncidentsStore((state) => state.openCreateModal);
 
   const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
@@ -151,7 +158,8 @@ export function SpybeeMap() {
       element.className = `${styles.marker} ${styles[incident.priority]}`;
       element.setAttribute('aria-label', `Seleccionar ${incident.title}`);
 
-      element.addEventListener('click', () => {
+      element.addEventListener('click', (event) => {
+        event.stopPropagation();
         selectIncident(incident.id);
       });
 
@@ -183,6 +191,42 @@ export function SpybeeMap() {
       hasFitBoundsRef.current = true;
     }
   }, [selectIncident, visibleIncidents]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+
+    if (!map) {
+      return;
+    }
+
+    map.getCanvas().style.cursor = isPickingLocation ? 'crosshair' : '';
+
+    return () => {
+      map.getCanvas().style.cursor = '';
+    };
+  }, [isPickingLocation]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+
+    if (!map || !isPickingLocation) {
+      return;
+    }
+
+    function handleMapClick(event: mapboxgl.MapMouseEvent) {
+      setCreationCoordinates({
+        lat: event.lngLat.lat,
+        lng: event.lngLat.lng,
+      });
+      openCreateModal();
+    }
+
+    map.on('click', handleMapClick);
+
+    return () => {
+      map.off('click', handleMapClick);
+    };
+  }, [isPickingLocation, openCreateModal, setCreationCoordinates]);
 
   if (!token) {
     return (

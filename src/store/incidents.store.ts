@@ -20,6 +20,7 @@ type IncidentsStore = {
   selectedIncidentId: string | null;
   creationCoordinates: Coordinates | null;
   isCreateModalOpen: boolean;
+  isPickingLocation: boolean;
 
   filters: IncidentFilters;
 
@@ -31,6 +32,8 @@ type IncidentsStore = {
   addIncident: (incident: Incident) => void;
 
   selectIncident: (incidentId: string | null) => void;
+  startIncidentCreation: () => void;
+  cancelIncidentCreation: () => void;
   openCreateModal: () => void;
   closeCreateModal: () => void;
   setCreationCoordinates: (coordinates: Coordinates | null) => void;
@@ -57,6 +60,7 @@ export const useIncidentsStore = create<IncidentsStore>()(
       selectedIncidentId: null,
       creationCoordinates: null,
       isCreateModalOpen: false,
+      isPickingLocation: false,
 
       filters: DEFAULT_FILTERS,
 
@@ -108,9 +112,26 @@ export const useIncidentsStore = create<IncidentsStore>()(
         });
       },
 
+      startIncidentCreation: () => {
+        set({
+          creationCoordinates: null,
+          isCreateModalOpen: false,
+          isPickingLocation: true,
+        });
+      },
+
+      cancelIncidentCreation: () => {
+        set({
+          creationCoordinates: null,
+          isCreateModalOpen: false,
+          isPickingLocation: false,
+        });
+      },
+
       openCreateModal: () => {
         set({
           isCreateModalOpen: true,
+          isPickingLocation: false,
         });
       },
 
@@ -118,6 +139,7 @@ export const useIncidentsStore = create<IncidentsStore>()(
         set({
           isCreateModalOpen: false,
           creationCoordinates: null,
+          isPickingLocation: false,
         });
       },
 
