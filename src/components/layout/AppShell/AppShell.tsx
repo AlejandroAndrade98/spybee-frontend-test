@@ -13,6 +13,10 @@ type AppShellProps = {
 export function AppShell({ activeView, children }: AppShellProps) {
   return (
     <div className={styles.shell}>
+      <a className={styles.skipLink} href="#main-content">
+        Ir al contenido
+      </a>
+
       <AppHeader activeView={activeView} />
 
       <div className={styles.body}>

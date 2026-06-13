@@ -11,24 +11,6 @@
   background: #ffffff;
 }
 
-.skipLink {
-  position: absolute;
-  left: 0.75rem;
-  top: 0.75rem;
-  z-index: 3;
-  transform: translateY(-160%);
-  border-radius: 6px;
-  background: var(--color-header);
-  color: #ffffff;
-  padding: 0.45rem 0.65rem;
-  font-size: 0.78rem;
-  font-weight: 800;
-
-  &:focus {
-    transform: translateY(0);
-  }
-}
-
 .createButton {
   display: grid;
   width: 54px;

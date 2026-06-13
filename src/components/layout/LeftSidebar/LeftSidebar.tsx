@@ -58,10 +58,6 @@ function Icon({ name }: { name: IconName }) {
 export function LeftSidebar({ activeView }: LeftSidebarProps) {
   return (
     <aside className={styles.sidebar} aria-label="Herramientas del proyecto">
-      <a className={styles.skipLink} href="#main-content">
-        Ir al contenido
-      </a>
-
       <button
         className={styles.createButton}
         type="button"

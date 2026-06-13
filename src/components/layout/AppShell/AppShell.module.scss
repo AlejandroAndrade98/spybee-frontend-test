@@ -3,6 +3,27 @@
   background: var(--color-app-bg);
 }
 
+.skipLink {
+  position: fixed;
+  top: 0.75rem;
+  left: 50%;
+  z-index: 1000;
+  transform: translate(-50%, -150%);
+  border-radius: 6px;
+  background: var(--color-header);
+  color: #ffffff;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.88rem;
+  font-weight: 800;
+  box-shadow: 0 12px 28px rgb(15 23 42 / 22%);
+  transition: transform 140ms ease;
+
+  &:focus,
+  &:focus-visible {
+    transform: translate(-50%, 0);
+  }
+}
+
 .body {
   display: grid;
   grid-template-columns: 92px minmax(0, 1fr);
