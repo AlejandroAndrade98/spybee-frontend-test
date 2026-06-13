@@ -84,7 +84,7 @@ export function IncidentsTable({
         <div>
           <h2>Incidencias filtradas</h2>
           <p>
-            {incidents.length} resultados visibles · Mostrando {firstItem}-
+            {incidents.length} resultados visibles - Mostrando {firstItem}-
             {lastItem}
           </p>
         </div>
@@ -108,30 +108,30 @@ export function IncidentsTable({
           <tbody>
             {paginatedIncidents.map((incident) => (
               <tr key={incident.id}>
-                <td>
+                <td data-label="Codigo">
                   <strong>#{getIncidentSequenceId(incident)}</strong>
                   {createdIncidentIds.has(incident.id) ? (
                     <span className={styles.localBadge}>Local</span>
                   ) : null}
                 </td>
-                <td>{incident.title}</td>
-                <td>{getIncidentProjectName(incident)}</td>
-                <td>{getIncidentTypeName(incident)}</td>
-                <td>
+                <td data-label="Titulo">{incident.title}</td>
+                <td data-label="Proyecto">{getIncidentProjectName(incident)}</td>
+                <td data-label="Categoria">{getIncidentTypeName(incident)}</td>
+                <td data-label="Prioridad">
                   <span
                     className={`${styles.badge} ${styles[incident.priority]}`}
                   >
                     {getPriorityLabel(incident.priority)}
                   </span>
                 </td>
-                <td>
+                <td data-label="Estado">
                   <span className={`${styles.badge} ${styles[incident.status]}`}>
                     {getStatusLabel(incident.status)}
                   </span>
                 </td>
-                <td>{getIncidentOwnerName(incident)}</td>
-                <td>{formatShortDate(incident.dueDate)}</td>
-                <td>
+                <td data-label="Responsable">{getIncidentOwnerName(incident)}</td>
+                <td data-label="Vencimiento">{formatShortDate(incident.dueDate)}</td>
+                <td data-label="Evidencias">
                   {getIncidentMediaCount(incident) > 0
                     ? getIncidentMediaCount(incident)
                     : '-'}

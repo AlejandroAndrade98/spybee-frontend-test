@@ -67,6 +67,14 @@ function createPopupContent(incident: Incident) {
   return content;
 }
 
+function setMapCursor(map: mapboxgl.Map, cursor: string) {
+  const canvas = map.getCanvas?.();
+
+  if (canvas) {
+    canvas.style.cursor = cursor;
+  }
+}
+
 export function SpybeeMap() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
@@ -199,10 +207,10 @@ export function SpybeeMap() {
       return;
     }
 
-    map.getCanvas().style.cursor = isPickingLocation ? 'crosshair' : '';
+    setMapCursor(map, isPickingLocation ? 'crosshair' : '');
 
     return () => {
-      map.getCanvas().style.cursor = '';
+      setMapCursor(map, '');
     };
   }, [isPickingLocation]);
 

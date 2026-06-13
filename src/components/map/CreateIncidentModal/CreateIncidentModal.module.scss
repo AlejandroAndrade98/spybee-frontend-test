@@ -154,6 +154,21 @@
 }
 
 @media (max-width: 680px) {
+  .backdrop {
+    align-items: end;
+    padding: 0.75rem;
+  }
+
+  .modal {
+    width: 100%;
+    max-height: calc(100vh - 1.5rem);
+  }
+
+  .header,
+  .form {
+    padding-inline: 1rem;
+  }
+
   .twoColumns {
     grid-template-columns: 1fr;
   }

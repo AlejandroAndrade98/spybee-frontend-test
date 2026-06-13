@@ -27,6 +27,7 @@
   width: 100%;
   min-width: 980px;
   border-collapse: collapse;
+  table-layout: fixed;
 
   th,
   td {
@@ -47,12 +48,32 @@
     color: var(--color-text-muted);
     font-size: 0.88rem;
     font-weight: 700;
+    overflow-wrap: anywhere;
   }
 
   strong {
     display: block;
     color: var(--color-text);
   }
+}
+
+.table th:nth-child(1),
+.table td:nth-child(1) {
+  width: 7rem;
+}
+
+.table th:nth-child(2),
+.table td:nth-child(2) {
+  width: 16rem;
+}
+
+.table th:nth-child(5),
+.table td:nth-child(5),
+.table th:nth-child(6),
+.table td:nth-child(6),
+.table th:nth-child(9),
+.table td:nth-child(9) {
+  width: 7rem;
 }
 
 .badge,
@@ -134,6 +155,71 @@
     &:disabled {
       cursor: not-allowed;
       opacity: 0.45;
+    }
+  }
+}
+
+@media (max-width: 760px) {
+  .tableWrap {
+    overflow-x: visible;
+  }
+
+  .table {
+    min-width: 0;
+
+    thead {
+      display: none;
+    }
+
+    tbody,
+    tr,
+    td {
+      display: block;
+      width: 100%;
+    }
+
+    tr {
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      padding: 0.75rem;
+
+      + tr {
+        margin-top: 0.75rem;
+      }
+    }
+
+    td {
+      display: grid;
+      grid-template-columns: 7.25rem minmax(0, 1fr);
+      align-items: center;
+      gap: 0.75rem;
+      border-bottom: 0;
+      padding: 0.4rem 0;
+
+      &::before {
+        color: var(--color-text-muted);
+        content: attr(data-label);
+        font-size: 0.76rem;
+        font-weight: 900;
+      }
+
+      strong,
+      .badge,
+      .localBadge {
+        width: fit-content;
+      }
+
+      strong {
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
+@media (max-width: 420px) {
+  .table {
+    td {
+      grid-template-columns: 6.25rem minmax(0, 1fr);
     }
   }
 }
