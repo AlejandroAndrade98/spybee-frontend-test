@@ -1,0 +1,152 @@
+.card {
+  display: grid;
+  gap: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: #ffffff;
+  padding: 1rem;
+  box-shadow: 0 10px 24px rgb(15 23 42 / 6%);
+
+  h2 {
+    margin: 0 0 0.25rem;
+    font-size: 1.05rem;
+  }
+
+  p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-weight: 700;
+  }
+}
+
+.tableWrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  min-width: 980px;
+  border-collapse: collapse;
+
+  th,
+  td {
+    border-bottom: 1px solid var(--color-border);
+    padding: 0.85rem 0.75rem;
+    text-align: left;
+    vertical-align: middle;
+  }
+
+  th {
+    background: var(--color-surface-muted);
+    color: var(--color-text);
+    font-size: 0.82rem;
+    font-weight: 900;
+  }
+
+  td {
+    color: var(--color-text-muted);
+    font-size: 0.88rem;
+    font-weight: 700;
+  }
+
+  strong {
+    display: block;
+    color: var(--color-text);
+  }
+}
+
+.badge,
+.localBadge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.25rem 0.55rem;
+  font-size: 0.76rem;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.localBadge {
+  margin-top: 0.25rem;
+  background: #fff4c7;
+  color: #8a6100;
+}
+
+.high {
+  background: #ffe2e0;
+  color: #c8322a;
+}
+
+.medium {
+  background: #fff3d1;
+  color: #9b6200;
+}
+
+.low {
+  background: #dcf8e5;
+  color: #16823d;
+}
+
+.open {
+  background: #dcf8e5;
+  color: #16823d;
+}
+
+.closed {
+  background: #edf0f3;
+  color: #57606a;
+}
+
+.on_pause {
+  background: #dceaff;
+  color: #1e62bc;
+}
+
+.empty {
+  border-radius: 6px;
+  background: var(--color-surface-muted);
+  padding: 1rem;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.paginationActions {
+  display: flex;
+  gap: 0.5rem;
+
+  button {
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background: #ffffff;
+    color: var(--color-text);
+    cursor: pointer;
+    padding: 0.6rem 0.85rem;
+    font-weight: 800;
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.45;
+    }
+  }
+}
+
+@media (max-width: 560px) {
+  .pagination {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .paginationActions {
+    button {
+      flex: 1;
+    }
+  }
+}

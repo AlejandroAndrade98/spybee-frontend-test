@@ -1,0 +1,80 @@
+.workspace {
+  display: grid;
+  gap: 1rem;
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.25rem 0 0.5rem;
+
+  p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-weight: 800;
+  }
+
+  h1 {
+    margin: 0.3rem 0 0;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1;
+  }
+}
+
+.sourcePill {
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: #ffffff;
+  padding: 0.75rem 1rem;
+  color: var(--color-text);
+  font-weight: 800;
+  box-shadow: 0 1px 2px rgb(15 23 42 / 5%);
+}
+
+.stateCard {
+  display: grid;
+  gap: 0.35rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: #ffffff;
+  padding: 1.25rem;
+  color: var(--color-text-muted);
+  font-weight: 800;
+  box-shadow: 0 10px 24px rgb(15 23 42 / 6%);
+
+  strong {
+    color: var(--color-text);
+  }
+}
+
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (max-width: 1100px) {
+  .metricsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .metricsGrid,
+  .summaryGrid {
+    grid-template-columns: 1fr;
+  }
+}

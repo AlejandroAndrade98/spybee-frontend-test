@@ -1,0 +1,48 @@
+.card {
+  display: grid;
+  gap: 0.35rem;
+  min-height: 118px;
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--metric-color);
+  border-radius: var(--radius-card);
+  background: #ffffff;
+  padding: 1rem;
+  box-shadow: 0 10px 24px rgb(15 23 42 / 6%);
+
+  span {
+    color: var(--color-text-muted);
+    font-size: 0.82rem;
+    font-weight: 800;
+  }
+
+  strong {
+    color: var(--metric-color);
+    font-size: 2rem;
+    line-height: 1;
+  }
+
+  small {
+    color: var(--color-text-muted);
+    font-weight: 700;
+  }
+}
+
+.neutral {
+  --metric-color: #30312f;
+}
+
+.green {
+  --metric-color: #2fbf63;
+}
+
+.blue {
+  --metric-color: #2477ed;
+}
+
+.yellow {
+  --metric-color: #f5b400;
+}
+
+.red {
+  --metric-color: #ef3d34;
+}
