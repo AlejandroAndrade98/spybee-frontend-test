@@ -77,16 +77,15 @@ export function LoginForm() {
 
         <div className={styles.formSide}>
           <div className={styles.toolbar}>
-            <button
-              aria-label={t('header.theme')}
-              onClick={toggleTheme}
-              title={
-                theme === 'light' ? t('header.themeDark') : t('header.themeLight')
-              }
-              type="button"
-            >
-              {theme === 'light' ? '☾' : '☀'}
-            </button>
+<button
+  aria-label={t('header.theme')}
+  className={styles.themeButton}
+  onClick={toggleTheme}
+  title={theme === 'light' ? t('header.themeDark') : t('header.themeLight')}
+  type="button"
+>
+  {theme === 'light' ? '☾' : '☀'}
+</button>
             <div aria-label={t('header.language')}>
               <button
                 aria-pressed={language === 'es'}
