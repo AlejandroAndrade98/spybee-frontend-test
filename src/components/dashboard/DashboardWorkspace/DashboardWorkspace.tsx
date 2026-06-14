@@ -2,7 +2,12 @@
 
 import { useEffect, useMemo, useState } from 'react';
 
+import { AdvancedStatsView } from '@/components/dashboard/AdvancedStatsView/AdvancedStatsView';
 import { DashboardFilters } from '@/components/dashboard/DashboardFilters/DashboardFilters';
+import {
+  DashboardViewToggle,
+  type DashboardViewMode,
+} from '@/components/dashboard/DashboardViewToggle/DashboardViewToggle';
 import { IncidentsTable } from '@/components/dashboard/IncidentsTable/IncidentsTable';
 import { MetricCard } from '@/components/dashboard/MetricCard/MetricCard';
 import { SummaryCard } from '@/components/dashboard/SummaryCard/SummaryCard';
@@ -36,6 +41,7 @@ export function DashboardWorkspace() {
   const [filters, setFilters] = useState<DashboardIncidentFilters>(
     DEFAULT_DASHBOARD_FILTERS,
   );
+  const [viewMode, setViewMode] = useState<DashboardViewMode>('summary');
 
   useEffect(() => {
     void loadIncidents();
@@ -126,6 +132,10 @@ export function DashboardWorkspace() {
     <section className={styles.workspace} aria-labelledby="dashboard-title">
       <Header source={source} />
 
+      <div className={styles.viewToolbar}>
+        <DashboardViewToggle onChange={setViewMode} value={viewMode} />
+      </div>
+
       <DashboardFilters
         filters={filters}
         onChange={setFilters}
@@ -134,83 +144,89 @@ export function DashboardWorkspace() {
         types={filterOptions.types}
       />
 
-      <div className={styles.metricsGrid} aria-label={t('dashboard.kpis')}>
-        <MetricCard
-          detail={t('dashboard.filteredDetail')}
-          label={t('dashboard.totalVisible')}
-          value={metrics.total}
-        />
-        <MetricCard
-          detail={t('dashboard.currentStatus')}
-          label={t('dashboard.open')}
-          tone="green"
-          value={metrics.open}
-        />
-        <MetricCard
-          detail={t('dashboard.closedDetail')}
-          label={t('dashboard.closed')}
-          tone="blue"
-          value={metrics.closed}
-        />
-        <MetricCard
-          detail={t('dashboard.followUp')}
-          label={t('dashboard.onPause')}
-          tone="yellow"
-          value={metrics.onPause}
-        />
-        <MetricCard
-          detail={t('dashboard.highPriorityDetail')}
-          label={t('dashboard.highPriority')}
-          tone="red"
-          value={metrics.highPriority}
-        />
-        <MetricCard
-          detail={t('dashboard.overdueDetail')}
-          label={t('dashboard.overdue')}
-          tone="red"
-          value={metrics.overdue}
-        />
-        <MetricCard
-          detail={t('dashboard.withMediaDetail')}
-          label={t('dashboard.withMedia')}
-          tone="blue"
-          value={metrics.withMedia}
-        />
-        <MetricCard
-          detail={t('dashboard.localDetail')}
-          label={t('dashboard.createdLocally')}
-          tone="yellow"
-          value={metrics.createdLocally}
-        />
-      </div>
+      {viewMode === 'summary' ? (
+        <>
+          <div className={styles.metricsGrid} aria-label={t('dashboard.kpis')}>
+            <MetricCard
+              detail={t('dashboard.filteredDetail')}
+              label={t('dashboard.totalVisible')}
+              value={metrics.total}
+            />
+            <MetricCard
+              detail={t('dashboard.currentStatus')}
+              label={t('dashboard.open')}
+              tone="green"
+              value={metrics.open}
+            />
+            <MetricCard
+              detail={t('dashboard.closedDetail')}
+              label={t('dashboard.closed')}
+              tone="blue"
+              value={metrics.closed}
+            />
+            <MetricCard
+              detail={t('dashboard.followUp')}
+              label={t('dashboard.onPause')}
+              tone="yellow"
+              value={metrics.onPause}
+            />
+            <MetricCard
+              detail={t('dashboard.highPriorityDetail')}
+              label={t('dashboard.highPriority')}
+              tone="red"
+              value={metrics.highPriority}
+            />
+            <MetricCard
+              detail={t('dashboard.overdueDetail')}
+              label={t('dashboard.overdue')}
+              tone="red"
+              value={metrics.overdue}
+            />
+            <MetricCard
+              detail={t('dashboard.withMediaDetail')}
+              label={t('dashboard.withMedia')}
+              tone="blue"
+              value={metrics.withMedia}
+            />
+            <MetricCard
+              detail={t('dashboard.localDetail')}
+              label={t('dashboard.createdLocally')}
+              tone="yellow"
+              value={metrics.createdLocally}
+            />
+          </div>
 
-      <div className={styles.summaryGrid}>
-        <SummaryCard
-          description={t('dashboard.statusDescription')}
-          items={statusSummary}
-          title={t('dashboard.byStatus')}
-        />
-        <SummaryCard
-          description={t('dashboard.priorityDescription')}
-          items={prioritySummary}
-          title={t('dashboard.byPriority')}
-        />
-        <SummaryCard
-          description={t('dashboard.categoryDescription')}
-          items={typeSummary}
-          title={t('dashboard.byCategory')}
-        />
-        <SummaryCard
-          description={t('dashboard.ownerDescription')}
-          items={ownerSummary}
-          title={t('dashboard.byOwner')}
-        />
-      </div>
+          <div className={styles.summaryGrid}>
+            <SummaryCard
+              description={t('dashboard.statusDescription')}
+              items={statusSummary}
+              title={t('dashboard.byStatus')}
+            />
+            <SummaryCard
+              description={t('dashboard.priorityDescription')}
+              items={prioritySummary}
+              title={t('dashboard.byPriority')}
+            />
+            <SummaryCard
+              description={t('dashboard.categoryDescription')}
+              items={typeSummary}
+              title={t('dashboard.byCategory')}
+            />
+            <SummaryCard
+              description={t('dashboard.ownerDescription')}
+              items={ownerSummary}
+              title={t('dashboard.byOwner')}
+            />
+          </div>
 
-      <IncidentsTable
-        createdIncidentIds={createdIncidentIds}
-        incidents={sortedIncidents}
-      />
+          <IncidentsTable
+            createdIncidentIds={createdIncidentIds}
+            incidents={sortedIncidents}
+          />
+        </>
+      ) : (
+        <AdvancedStatsView incidents={filteredIncidents} />
+      )}
     </section>
   );
 }

@@ -1,0 +1,104 @@
+.card {
+  display: grid;
+  gap: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  padding: 1rem;
+  box-shadow: 0 10px 24px rgb(15 23 42 / 6%);
+
+  h2 {
+    margin: 0 0 0.25rem;
+    font-size: 1.05rem;
+  }
+
+  p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+}
+
+.chartWrap {
+  overflow-x: auto;
+}
+
+.chart {
+  width: 100%;
+  min-width: 34rem;
+  height: auto;
+}
+
+.gridLine {
+  stroke: var(--color-border);
+  stroke-dasharray: 5 5;
+}
+
+.createdBar {
+  fill: #2878f0;
+}
+
+.closedBar {
+  fill: #2ebc5a;
+}
+
+.backlogLine {
+  fill: none;
+  stroke: var(--color-primary-dark);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 4;
+}
+
+.axisText {
+  fill: var(--color-text-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  font-weight: 900;
+}
+
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+
+  &::before {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 999px;
+    content: '';
+  }
+}
+
+.created::before {
+  background: #2878f0;
+}
+
+.closed::before {
+  background: #2ebc5a;
+}
+
+.backlog::before {
+  background: var(--color-primary-dark);
+}
+
+.empty {
+  border-radius: 6px;
+  background: var(--color-surface-muted);
+  padding: 1rem;
+}
+
+@media (max-width: 620px) {
+  .chart {
+    min-width: 28rem;
+  }
+}
