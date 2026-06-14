@@ -29,7 +29,7 @@ export type IncidentProject = {
 export type IncidentMedia = {
   id: string;
   name: string;
-  type: 'image' | 'video';
+  type: 'image' | 'video' | 'document';
   format: string;
   size: number;
   status: string;
