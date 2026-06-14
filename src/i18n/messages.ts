@@ -24,6 +24,37 @@ export const messages = {
     'header.language': 'Idioma',
     'header.map': 'Mapa',
     'header.dashboard': 'Dashboard',
+    'header.options': 'Opciones',
+
+    'auth.demoLabel': 'Acceso demo',
+    'auth.title': 'Ingresa a Spybee',
+    'auth.subtitle':
+      'Autenticacion frontend-only para explorar la prueba tecnica.',
+    'auth.email': 'Email',
+    'auth.password': 'Contrasena',
+    'auth.signIn': 'Entrar',
+    'auth.logout': 'Salir',
+    'auth.invalidCredentials': 'Credenciales invalidas.',
+    'auth.demoUsers': 'Usuarios demo',
+    'auth.checkingSession': 'Validando sesion...',
+    'auth.redirecting': 'Redirigiendo al login...',
+
+    'options.title': 'Opciones',
+    'options.themeTitle': 'Apariencia',
+    'options.themeDescription':
+      'Cambia entre tema claro y oscuro para revisar la interfaz.',
+    'options.languageTitle': 'Idioma',
+    'options.languageDescription':
+      'Alterna los textos de interfaz entre espanol e ingles.',
+    'options.usersTitle': 'Administracion de usuarios',
+    'options.usersDescription':
+      'Espacio preparado para roles, permisos y equipos demo.',
+    'options.projectTitle': 'Configuracion del proyecto',
+    'options.projectDescription':
+      'Accesos futuros para parametros del proyecto y compania.',
+    'options.exportsTitle': 'Informes y exportaciones',
+    'options.exportsDescription':
+      'Preparado para reportes operativos y descargas del dashboard.',
 
     'sidebar.tools': 'Herramientas del proyecto',
     'sidebar.createIncident': 'Crear incidencia',
@@ -33,7 +64,10 @@ export const messages = {
 
     'map.title': 'Mapa de incidencias',
     'map.filters': 'Filtros',
+    'map.filterMap': 'Filtrar mapa',
+    'map.filterHint': 'Filtros de mapa preparados para una siguiente iteracion.',
     'map.reports': 'Informes',
+    'map.statistics': 'Estadisticas',
     'map.createIncident': '+ Crear incidencia',
     'map.pickLocation': 'Haz clic en el mapa para ubicar la incidencia',
     'map.missingTokenTitle': 'Falta configurar Mapbox',
@@ -202,6 +236,37 @@ export const messages = {
     'header.language': 'Language',
     'header.map': 'Map',
     'header.dashboard': 'Dashboard',
+    'header.options': 'Options',
+
+    'auth.demoLabel': 'Demo access',
+    'auth.title': 'Sign in to Spybee',
+    'auth.subtitle':
+      'Frontend-only authentication to explore the technical test.',
+    'auth.email': 'Email',
+    'auth.password': 'Password',
+    'auth.signIn': 'Sign in',
+    'auth.logout': 'Logout',
+    'auth.invalidCredentials': 'Invalid credentials.',
+    'auth.demoUsers': 'Demo users',
+    'auth.checkingSession': 'Checking session...',
+    'auth.redirecting': 'Redirecting to login...',
+
+    'options.title': 'Options',
+    'options.themeTitle': 'Appearance',
+    'options.themeDescription':
+      'Switch between light and dark theme to review the interface.',
+    'options.languageTitle': 'Language',
+    'options.languageDescription':
+      'Switch interface text between Spanish and English.',
+    'options.usersTitle': 'User administration',
+    'options.usersDescription':
+      'Prepared space for demo roles, permissions and teams.',
+    'options.projectTitle': 'Project settings',
+    'options.projectDescription':
+      'Future access for project and company parameters.',
+    'options.exportsTitle': 'Reports and exports',
+    'options.exportsDescription':
+      'Prepared for operational reports and dashboard downloads.',
 
     'sidebar.tools': 'Project tools',
     'sidebar.createIncident': 'Create incident',
@@ -211,7 +276,10 @@ export const messages = {
 
     'map.title': 'Incidents map',
     'map.filters': 'Filters',
+    'map.filterMap': 'Filter map',
+    'map.filterHint': 'Map filters are prepared for a next iteration.',
     'map.reports': 'Reports',
+    'map.statistics': 'Statistics',
     'map.createIncident': '+ Create incident',
     'map.pickLocation': 'Click the map to place the incident',
     'map.missingTokenTitle': 'Mapbox is not configured',

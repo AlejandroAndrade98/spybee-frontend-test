@@ -1,0 +1,8 @@
+.state {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  background: var(--color-app-bg);
+  color: var(--color-text-muted);
+  font-weight: 900;
+}

@@ -4,6 +4,7 @@ import type { FormEvent } from 'react';
 import { useMemo, useState } from 'react';
 
 import { useTranslations } from '@/i18n/useTranslations';
+import { FALLBACK_AUTH_USER, useAuthStore } from '@/store/auth.store';
 import { useIncidentsStore } from '@/store/incidents.store';
 import type {
   Incident,
@@ -68,6 +69,7 @@ function getPriorityLabel(
 
 export function CreateIncidentModal() {
   const t = useTranslations();
+  const currentUser = useAuthStore((state) => state.currentUser);
   const baseIncidents = useIncidentsStore((state) => state.baseIncidents);
   const createdIncidents = useIncidentsStore((state) => state.createdIncidents);
   const creationCoordinates = useIncidentsStore(
@@ -173,6 +175,7 @@ export function CreateIncidentModal() {
       id: 'demo-project',
       name: 'Proyecto Onboarding',
     };
+    const owner = currentUser ?? FALLBACK_AUTH_USER;
     const incidentId = crypto.randomUUID();
     const nextIncident: Incident = {
       id: incidentId,
@@ -186,10 +189,10 @@ export function CreateIncidentModal() {
       approval: false,
       project: incidents[0]?.project ?? fallbackProject,
       owner: {
-        id: 'demo-user',
-        name: 'Julian',
-        email: 'julian@spybee.com',
-        avatarUrl: '',
+        id: owner.id,
+        name: owner.name,
+        email: owner.email,
+        avatarUrl: owner.avatarUrl,
       },
       whatsappOwner: null,
       assignees: [],

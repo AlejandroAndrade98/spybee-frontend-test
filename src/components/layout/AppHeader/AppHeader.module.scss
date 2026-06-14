@@ -14,50 +14,12 @@
   align-items: center;
   gap: 0.65rem;
   width: fit-content;
-
-  strong {
-    font-size: 1.55rem;
-    font-weight: 800;
-    line-height: 1;
-  }
 }
 
-.mark {
-  position: relative;
-  display: grid;
-  width: 30px;
-  height: 30px;
-  place-items: center;
-  color: var(--color-primary);
-
-  &::before,
-  &::after,
-  span {
-    position: absolute;
-    width: 14px;
-    height: 18px;
-    border: 2px solid currentcolor;
-    border-radius: 999px 999px 8px 8px;
-    content: '';
-  }
-
-  &::before {
-    rotate: -28deg;
-    transform-origin: bottom center;
-  }
-
-  &::after {
-    rotate: 28deg;
-    transform-origin: bottom center;
-  }
-
-  span {
-    top: 3px;
-    width: 5px;
-    height: 20px;
-    border-radius: 999px;
-    background: currentcolor;
-  }
+.logo {
+  display: block;
+  width: 136px;
+  height: auto;
 }
 
 .project {
@@ -130,16 +92,6 @@
   color: #222222 !important;
 }
 
-.flag {
-  width: 22px;
-  height: 14px;
-  border-radius: 2px;
-  background:
-    linear-gradient(#c83b34 0 25%, transparent 25% 75%, #c83b34 75%),
-    linear-gradient(90deg, #f5c542 0 34%, #f7d251 34%);
-  box-shadow: 0 0 0 1px rgb(255 255 255 / 20%);
-}
-
 .avatar {
   display: grid;
   width: 40px;
@@ -154,15 +106,35 @@
 .userText {
   display: grid;
   line-height: 1.1;
+  min-width: 0;
 
   strong {
     font-size: 0.95rem;
+    overflow: hidden;
+    max-width: 10rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   span {
     color: #d8dde2;
     font-size: 0.78rem;
     font-weight: 700;
+  }
+}
+
+.logoutButton {
+  border: 1px solid rgb(255 255 255 / 18%);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 8%);
+  color: #ffffff;
+  cursor: pointer;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 900;
+
+  &:hover {
+    background: rgb(255 255 255 / 14%);
   }
 }
 
@@ -180,9 +152,13 @@
     width: 100%;
   }
 
-  .flag,
-  .userText {
+  .userText,
+  .logoutButton {
     display: none;
+  }
+
+  .logo {
+    width: 118px;
   }
 
   .themeButton {

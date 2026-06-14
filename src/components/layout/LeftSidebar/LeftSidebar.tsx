@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import { useTranslations } from '@/i18n/useTranslations';
 import { useIncidentsStore } from '@/store/incidents.store';
@@ -8,7 +9,7 @@ import { useIncidentsStore } from '@/store/incidents.store';
 import styles from './LeftSidebar.module.scss';
 
 type LeftSidebarProps = {
-  activeView: 'map' | 'dashboard';
+  activeView: 'map' | 'dashboard' | 'options';
 };
 
 type IconName = 'map' | 'dashboard' | 'home' | 'settings';
@@ -16,15 +17,18 @@ type IconName = 'map' | 'dashboard' | 'home' | 'settings';
 const items = [
   {
     href: '/map',
-    label: 'Mapa',
     icon: 'map',
     view: 'map',
   },
   {
     href: '/dashboard',
-    label: 'Dashboard',
     icon: 'dashboard',
     view: 'dashboard',
+  },
+  {
+    href: '/options',
+    icon: 'settings',
+    view: 'options',
   },
 ] as const;
 
@@ -60,60 +64,72 @@ function Icon({ name }: { name: IconName }) {
   );
 }
 
+function getLabel(
+  view: (typeof items)[number]['view'],
+  t: ReturnType<typeof useTranslations>,
+) {
+  if (view === 'map') {
+    return t('header.map');
+  }
+
+  if (view === 'dashboard') {
+    return t('header.dashboard');
+  }
+
+  return t('header.options');
+}
+
 export function LeftSidebar({ activeView }: LeftSidebarProps) {
   const t = useTranslations();
+  const router = useRouter();
   const startIncidentCreation = useIncidentsStore(
     (state) => state.startIncidentCreation,
   );
 
+  function handleCreateIncident() {
+    startIncidentCreation();
+    router.push('/map');
+  }
+
   return (
     <aside className={styles.sidebar} aria-label={t('sidebar.tools')}>
       <button
-        className={styles.createButton}
-        onClick={startIncidentCreation}
-        type="button"
         aria-label={t('sidebar.createIncident')}
+        className={styles.createButton}
+        onClick={handleCreateIncident}
         title={t('sidebar.createIncident')}
+        type="button"
       >
         +
       </button>
 
       <nav className={styles.items} aria-label={t('sidebar.sections')}>
         <Link
-          href="/map"
-          className={styles.item}
           aria-label={t('sidebar.home')}
+          className={styles.item}
+          href="/map"
           title={t('sidebar.home')}
         >
           <Icon name="home" />
         </Link>
 
-        {items.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className={`${styles.item} ${
-              activeView === item.view ? styles.active : ''
-            }`}
-            aria-label={
-              item.view === 'map' ? t('header.map') : t('header.dashboard')
-            }
-            title={
-              item.view === 'map' ? t('header.map') : t('header.dashboard')
-            }
-          >
-            <Icon name={item.icon} />
-          </Link>
-        ))}
+        {items.map((item) => {
+          const label = getLabel(item.view, t);
 
-        <button
-          className={styles.item}
-          type="button"
-          aria-label={t('sidebar.settings')}
-          title={t('sidebar.settings')}
-        >
-          <Icon name="settings" />
-        </button>
+          return (
+            <Link
+              aria-label={label}
+              className={`${styles.item} ${
+                activeView === item.view ? styles.active : ''
+              }`}
+              href={item.href}
+              key={item.href}
+              title={label}
+            >
+              <Icon name={item.icon} />
+            </Link>
+          );
+        })}
       </nav>
     </aside>
   );

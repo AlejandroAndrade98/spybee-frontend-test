@@ -1,5 +1,6 @@
 'use client';
 
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
 import { AdvancedStatsView } from '@/components/dashboard/AdvancedStatsView/AdvancedStatsView';
@@ -31,6 +32,9 @@ import styles from './DashboardWorkspace.module.scss';
 
 export function DashboardWorkspace() {
   const t = useTranslations();
+  const searchParams = useSearchParams();
+  const initialViewMode =
+    searchParams.get('view') === 'statistics' ? 'statistics' : 'summary';
   const baseIncidents = useIncidentsStore((state) => state.baseIncidents);
   const createdIncidents = useIncidentsStore((state) => state.createdIncidents);
   const status = useIncidentsStore((state) => state.status);
@@ -41,7 +45,7 @@ export function DashboardWorkspace() {
   const [filters, setFilters] = useState<DashboardIncidentFilters>(
     DEFAULT_DASHBOARD_FILTERS,
   );
-  const [viewMode, setViewMode] = useState<DashboardViewMode>('summary');
+  const [viewMode, setViewMode] = useState<DashboardViewMode>(initialViewMode);
 
   useEffect(() => {
     void loadIncidents();
